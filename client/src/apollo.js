@@ -29,6 +29,15 @@ function createApolloClient(accessToken) {
   return new ApolloClient({ cache, link: authLink.concat(httpLink) });
 }
 
-const client = createApolloClient();
+function ApolloProviderWithAuth({ children }) {
+  const [accessToken, setAccessToken] = useState();
+  const { getAccessTokenSilently, getAccessTokenWithPopup } = useAuth0();
 
-export default client;
+  // Need to fetch the access token in `useEffect`...
+
+  const client = createApolloClient(accessToken);
+
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+}
+
+export default ApolloProviderWithAuth;
