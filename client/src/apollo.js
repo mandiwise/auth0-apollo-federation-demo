@@ -33,7 +33,27 @@ function ApolloProviderWithAuth({ children }) {
   const [accessToken, setAccessToken] = useState();
   const { getAccessTokenSilently, getAccessTokenWithPopup } = useAuth0();
 
-  // Need to fetch the access token in `useEffect`...
+  useEffect(() => {
+    (async () => {
+      let tokenFromAuth0;
+
+      try {
+        tokenFromAuth0 = await getAccessTokenSilently({
+          audience: process.env.REACT_APP_GRAPHQL_API_URL
+        });
+      } catch (err) {
+        if (err.error === "consent_required") {
+          tokenFromAuth0 = await getAccessTokenWithPopup({
+            audience: process.env.REACT_APP_GRAPHQL_API_URL
+          });
+        }
+      }
+
+      if (tokenFromAuth0) {
+        setAccessToken(tokenFromAuth0);
+      }
+    })();
+  }, [getAccessTokenSilently, getAccessTokenWithPopup]);
 
   const client = createApolloClient(accessToken);
 
