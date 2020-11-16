@@ -1,0 +1,32 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently -k npm:start:*",
+    "start:rest": "json-server -w -q -p 5000 db.json",
+    "start:graphql": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/federation": "^0.20.4",
+    "@apollo/gateway": "^0.21.1",
+    "apollo-server": "^2.19.0",
+    "apollo-server-express": "^2.19.0",
+    "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express-jwt": "^6.0.0",
+    "graphql": "^15.4.0",
+    "graphql-middleware": "^4.0.2",
+    "graphql-shield": "^7.4.0",
+    "json-server": "^0.16.2",
+    "jwks-rsa": "^1.11.0",
+    "node-fetch": "^2.6.1",
+    "nodemon": "^2.0.6",
+    "wait-on": "^5.2.0"
+  }
+}

@@ -1,0 +1,25 @@
+@tailwind base;
+
+.btn {
+  @apply py-2 px-4 rounded;
+}
+
+.btn-primary {
+  @apply bg-purple-600 text-white font-bold;
+}
+
+.btn-primary:hover {
+  @apply bg-purple-700;
+}
+
+.btn-secondary {
+  @apply bg-transparent text-purple-700 font-semibold border-2 border-purple-500;
+}
+
+.btn-secondary:hover {
+  @apply bg-purple-600 text-white border-transparent;
+}
+
+@tailwind components;
+
+@tailwind utilities;
