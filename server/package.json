@@ -7,6 +7,7 @@
     "start": "concurrently -k npm:start:*",
     "start:rest": "json-server -w -q -p 5000 db.json",
     "start:astronauts": "nodemon src/services/astronauts/index.js",
+    "start:missions": "nodemon src/services/missions/index.js",
     "start:graphql": "wait-on tcp:4001 && nodemon src/index.js"
   },
   "keywords": [],
