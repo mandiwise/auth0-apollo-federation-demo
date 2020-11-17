@@ -9,10 +9,14 @@ const apiUrl = process.env.REST_API_URL;
 const typeDefs = gql`
   type Mission {
     id: ID!
-    crew: [Astronaut] # Where does astronaut come from?
+    crew: [Astronaut]
     designation: String!
     startDate: String
     endDate: String
+  }
+
+  extend type Astronaut @key(fields: "id") {
+    id: ID! @external
   }
 
   extend type Query {
@@ -24,7 +28,7 @@ const typeDefs = gql`
 const resolvers = {
   Mission: {
     crew(mission) {
-      // How do we resolve this now?
+      return mission.crew.map(id => ({ __typename: "Astronaut", id }));
     }
   },
   Query: {
