@@ -12,7 +12,12 @@ const gateway = new ApolloGateway({
 
 const server = new ApolloServer({
   gateway,
-  subscriptions: false
+  subscriptions: false,
+  context: ({ req }) => {
+    const user = req.user || null;
+    console.log("Checking for the user...", user);
+    return { user };
+  }
 });
 
 server.applyMiddleware({ app, cors: false });
