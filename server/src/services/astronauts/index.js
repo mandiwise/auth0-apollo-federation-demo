@@ -1,7 +1,10 @@
 require("dotenv").config();
 const { ApolloServer, gql } = require("apollo-server");
+const { applyMiddleware } = require("graphql-middleware");
 const { buildFederatedSchema } = require("@apollo/federation");
 const fetch = require("node-fetch");
+
+const permissions = require("./permissions");
 
 const port = 4001;
 const apiUrl = process.env.REST_API_URL;
@@ -35,10 +38,12 @@ const resolvers = {
 };
 
 const server = new ApolloServer({
-  schema: buildFederatedSchema([{ typeDefs, resolvers }]),
+  schema: applyMiddleware(
+    buildFederatedSchema([{ typeDefs, resolvers }]),
+    permissions
+  ),
   context: ({ req }) => {
     const user = req.headers.user ? JSON.parse(req.headers.user) : null;
-    console.log("Checking for the user from astronauts service...", user);
     return { user };
   }
 });

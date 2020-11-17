@@ -29,7 +29,6 @@ const server = new ApolloServer({
   subscriptions: false,
   context: ({ req }) => {
     const user = req.user || null;
-    console.log("Checking for the user...", user);
     return { user };
   }
 });
