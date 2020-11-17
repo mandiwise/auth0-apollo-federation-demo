@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { ApolloServer, gql } = require("apollo-server");
+const { buildFederatedSchema } = require("@apollo/federation");
 const fetch = require("node-fetch");
 
 const port = 4001;
@@ -29,8 +30,7 @@ const resolvers = {
 };
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers
+  schema: buildFederatedSchema([{ typeDefs, resolvers }])
 });
 
 server.listen({ port }).then(({ url }) => {
