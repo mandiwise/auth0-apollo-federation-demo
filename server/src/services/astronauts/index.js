@@ -35,7 +35,12 @@ const resolvers = {
 };
 
 const server = new ApolloServer({
-  schema: buildFederatedSchema([{ typeDefs, resolvers }])
+  schema: buildFederatedSchema([{ typeDefs, resolvers }]),
+  context: ({ req }) => {
+    const user = req.headers.user ? JSON.parse(req.headers.user) : null;
+    console.log("Checking for the user from astronauts service...", user);
+    return { user };
+  }
 });
 
 server.listen({ port }).then(({ url }) => {
