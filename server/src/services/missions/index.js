@@ -17,6 +17,7 @@ const typeDefs = gql`
 
   extend type Astronaut @key(fields: "id") {
     id: ID! @external
+    missions: [Mission]
   }
 
   extend type Query {
@@ -26,6 +27,16 @@ const typeDefs = gql`
 `;
 
 const resolvers = {
+  Astronaut: {
+    async missions(astronaut) {
+      const res = await fetch(`${apiUrl}/missions`);
+      const missions = await res.json();
+
+      return missions.filter(({ crew }) =>
+        crew.includes(parseInt(astronaut.id))
+      );
+    }
+  },
   Mission: {
     crew(mission) {
       return mission.crew.map(id => ({ __typename: "Astronaut", id }));
