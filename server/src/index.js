@@ -1,12 +1,19 @@
 require("dotenv").config();
+const { ApolloGateway } = require("@apollo/gateway");
 const { ApolloServer } = require("apollo-server-express");
 
 const app = require("./app");
-const resolvers = require("./resolvers");
-const typeDefs = require("./typeDefs");
 
 const port = 4000;
-const server = new ApolloServer({ typeDefs, resolvers });
+
+const gateway = new ApolloGateway({
+  serviceList: [{ name: "astronauts", url: "http://localhost:4001" }]
+});
+
+const server = new ApolloServer({
+  gateway,
+  subscriptions: false
+});
 
 server.applyMiddleware({ app, cors: false });
 
